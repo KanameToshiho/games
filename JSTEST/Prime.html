@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta name="viewport" content="user-scalable=no" />
+</head>
+<body>
+<script>
+alert("素数しりとり-1~3桁の素数を使って、制限時間30秒の中でどれだけAIとしりとりできるかを計ります。");
+const pamo = 1000
+window.onload = function(){
+let vh = window.innerHeight * 0.01;
+document.documentElement.style.setProperty('--vh', `${vh}px`);
+}
+a = Math.floor(pamo*Math.random());
+console.log(a);
+b = Math.floor(Math.pow(a,1/2));
+p = [...Array(pamo)].map((_, i) => 1);
+for(var [i,v] of p.entries()){
+    if(i<=102){
+    for(var k=v;k<pamo/(i+2)*v;k++){
+        p[(k+1)*(i+2)-2]=0;
+    }
+    }
+}
+var sigc=0;
+p = [...Array(pamo)].map((_, i) => i<=1?0:p[i-2]*(i));
+function np(n){ //nは1~9で
+d = p.filter(function(i){return i.toString(10).slice(0,1)==n});
+return d //0~9999までの素数のうち上一桁がnから始まる素数の配列を返す。
+}
+function invsigm(x){
+    var res=(-1)/3*Math.log(-1+Math.exp(3-3*x)+Math.exp(-3*x))
+    return res
+}
+function prob(n){
+    var res=Math.floor((invsigm(Math.random())+1)*n/2);
+    return res//0~n-1までのn個の整数から一つ。0に近いほど出やすい。
+}
+function npn(n){
+    var res = np(n)[prob(np(n).length)];
+    p[res]=0;
+    return res
+}
+function resp(n){
+    p[n]=0;
+    var res=npn(n.toString().substr(-1));
+    return res
+}
+document.addEventListener('touchstart', event => {
+  if (event.touches.length > 1) {
+    event.preventDefault();
+  }
+}, true);
+let lastTouch = 0;
+document.addEventListener('touchend', event => {
+  const now = window.performance.now();
+  if (now - lastTouch <= 500) {
+    event.preventDefault();
+  }
+  lastTouch = now;
+}, true);
+p[31]=0;
+</script>
+<style>
+    body{
+        margin:0px;
+        width:100vw;
+        height:calc(var(--vh, 1vh) * 100);
+        overflow:hidden;
+    }
+    .display{
+        width:100vw;
+        height:calc(var(--vh, 1vh) * 50);
+        margin:0px;
+        background:#DDDDFF;
+        box-sizing:border-box;
+        padding:3vw;
+    }
+    .cboard{
+        width:100vw;
+        height:calc(var(--vh, 1vh) * 50);
+        margin:0px;
+        padding:0px;
+        background:#EEEEFF;
+    }
+    .calc{
+        display:inline-block;
+        width:28vw;
+        margin:0px;
+        height:calc(var(--vh, 1vh) * 10);
+        margin-bottom:calc(var(--vh, 1vh) * 1.5);
+        border-radius:10%;
+        font-size:calc(var(--vh, 1vh) * 5);
+        color:#000000;
+        background:#FFFFFF;
+        border-color: #FFFFFF;
+    }
+    .btn{
+        display:inline-block;
+        width:28vw;
+        margin:0px;
+        height:calc(var(--vh, 1vh) * 10);
+        margin-bottom:calc(var(--vh, 1vh) * 1.5);
+        border-radius:14%;
+        font-size:calc(var(--vh, 1vh) * 6);
+        color:#000000;
+        background:#FFDD00;
+        border-color: #FFFFFF;
+    }
+    .stat{
+        width:86vw;
+        margin-left:auto;
+        margin-right:auto;
+        height:10vw;
+        box-sizing:border-box;
+        background:#EEEEFF;
+        border: 8px double #9977FF;
+        display:flex;
+    }
+    .score{
+        width:calc(100% - 10vw);
+        height:100%;
+        margin-right:0px;
+        text-align:center;
+    }
+    .time{
+        width:10vw;
+        height:100%;
+        margin:0px;
+        background:#BBAAFF;
+        text-align:center;
+    }
+    .numbers{
+        width:100%;
+        height:calc( calc(var(--vh, 1vh) * 50) - 13vw - 4vh);
+        margin-top:calc(var(--vh, 1vh) * 2);
+        margin-bottom:calc(var(--vh, 1vh) * 2);
+        text-align:center;
+    }
+    @keyframes ttoo {
+    0% {
+    }
+    100% {
+        transform: translateX(-50%) translateY(-11vh) scaleX(80%) scaleY(80%) ;
+        -webkit-transform: translateX(-50%) translateY(-11vh) scaleX(80%) scaleY(80%) ;
+    }
+    }
+    @keyframes thtot {
+    0% {
+        transform: translateX(-50%) translateY(calc(var(--vh, 1vh) * 11)) scaleX(80%) scaleY(80%);
+        -webkit-transform: translateX(-50%) translateY(calc(var(--vh, 1vh) * 11)) scaleX(80%) scaleY(80%);
+    }
+    100% {
+        transform: translateX(-50%) translateY(0px) scaleX(100%) scaleY(100%) ;
+        -webkit-transform: translateX(-50%) translateY(0px) scaleX(100%) scaleY(100%) ;
+    }
+    }
+    @keyframes otoths {
+    0% {
+    }
+    100% {
+        transform: translateX(-50%) translateY(calc(var(--vh, 1vh) * -17)) scaleX(80%) scaleY(80%);
+        -webkit-transform: translateX(-50%) translateY(calc(var(--vh, 1vh) * -17)) scaleX(80%) scaleY(80%);
+        opacity:0.0;
+    }
+    }
+    @keyframes otothe {
+    0% {
+        transform: translateX(-50%) translateY(calc(var(--vh, 1vh) * 17)) scaleX(80%) scaleY(80%);
+        -webkit-transform: translateX(-50%) translateY(calc(var(--vh, 1vh) * 17)) scaleX(80%) scaleY(80%);
+        opacity:0.0;
+    }
+    100% {
+        transform: translateX(-50%) translateY(calc(var(--vh, 1vh) * 11)) scaleX(80%) scaleY(80%);
+        -webkit-transform: translateX(-50%) translateY(calc(var(--vh, 1vh) * 11)) scaleX(80%) scaleY(80%);
+        opacity:1.0;
+    }
+    }
+    h1{
+        position:absolute;
+        top:calc(var(--vh, 1vh) * 18);
+        left: 50%;
+        transform: translate(-50%,-50%);
+        -webkit-transform: translateX(-50%);
+        -ms-transform: translateX(-50%);
+        font-size:700%;
+        font-family:  "ヒラギノ角ゴ ProN W3";
+    }
+    h1.ttooc{
+        transform: translateY(0px) translateX(-50%) scaleX(100%) scaleY(100%) ;
+        -webkit-transform: translateY(0px) translateX(-50%) scaleX(100%) scaleY(100%) ;
+        animation: ttoo 0.5s cubic-bezier(0.27,0.37,0.82,1) 1 forwards;
+    }
+    h1.thtotc{
+        transform: translateX(-50%) translateY(calc(var(--vh, 1vh) * 11)) scaleX(80%) scaleY(80%);
+        -webkit-transform: translateX(-50%) translateY(calc(var(--vh, 1vh) * 11)) scaleX(80%) scaleY(80%);
+        animation: thtot 0.5s cubic-bezier(0.27,0.37,0.82,1) 1 forwards;
+    }
+    h1.otothc{
+        transform: translateX(-50%) translateY(calc(var(--vh, 1vh) * -11)) scaleX(80%) scaleY(80%) ;
+        -webkit-transform: translateX(-50%) translateY(calc(var(--vh, 1vh) * -11)) scaleX(80%) scaleY(80%) ;
+        animation: otoths 0.5s cubic-bezier(0.27,0.37,0.82,1) 1 forwards,otothe 0.25s 0.25s cubic-bezier(0.27,0.37,0.82,1) 1 forwards;
+    }
+    h3.u{
+        position:absolute;
+        top:calc(var(--vh, 1vh) * (+11 + 18));
+        left:50vw;
+        font-size:2vh;
+        transform: translate(-50%,-50%);
+        -webkit-transform: translateX(-50%);
+        -ms-transform: translateX(-50%);
+        font-family:  "Meiryo";
+    }
+    h3.d{
+        position:absolute;
+        top:calc(var(--vh, 1vh) * (18));
+        left:50vw;
+        font-size:2vh;
+        transform: translate(-50%,-50%);
+        -webkit-transform: translateX(-50%);
+        -ms-transform: translateX(-50%);
+        font-family:  "Meiryo";
+    }
+    .flash{
+        animation: flashanim 0.6s cubic-bezier(0.27,0.37,0.82,1) 1 forwards;
+    }
+    @keyframes flashanim{
+    50% {
+        opacity:0.0;
+    }
+
+    }
+    h2{
+        font-family:  "ヒラギノ角ゴ ProN W3";
+        font-size:400%;
+        margin-top:auto;
+        margin-bottom:auto;
+    }
+    .bb{
+        position:fixed;
+        top:calc(var(--vh, 1vh) * 50);
+        right:0;
+        margin:0px;
+        width:0vw;
+        height:0vh;
+    }
+    .bb.on{
+        width:100vw;
+        height:calc(var(--vh, 1vh) * 50);
+        background:rgba(0,0,0,.5);
+    }
+    button:hover{
+        opacity:0;
+    }
+    input[type="button"] {
+    -webkit-appearance: none;
+    border-radius: 0;
+    }
+    a{
+        text-align:center;
+    }
+</style>
+<div class="display">
+    <div class="stat"><div class="score"><H2 class="sc">score:0</H2></div><div class="time"><H2 class="tc">30</H2></div></div>
+    <div class="numbers">
+        <h1 class="ttooc">031</h1>
+        <h3 class="u"></h3>
+        <h1 class="otothc">???</h1>
+        <h3 class="d"></h3>
+        <h1 class="thtotc">001</h1>
+    </div>
+</div>
+<div class="cboard">
+<div style="padding:5vw;height:calc(var(--vh, 1vh) * 50);box-sizing:border-box;">
+<a class="calc z" style="margin-right:2.25vw;">0</a>
+<a class="btn x" style="margin-right:2.25vw;">x</a>
+<a class="btn en">-></a>
+<a class="calc o" style="margin-right:2.25vw;">1</a>
+<a class="calc t" style="margin-right:2.25vw;">2</a>
+<a class="calc th">3</a>
+<a class="calc f" style="margin-right:2.25vw;">4</a>
+<a class="calc fi" style="margin-right:2.25vw;">5</a>
+<a class="calc s">6</a>
+<a class="calc se" style="margin-right:2.25vw;">7</a>
+<a class="calc e" style="margin-right:2.25vw;">8</a>
+<a class="calc n">9</a>
+</div>
+</div>
+<div class="bb"></div>
+<script>
+    var info = "001";
+    var turn = true;
+    var time=30;
+    var score=0;
+    function flip(){
+        document.getElementsByClassName("bb")[0].classList.remove("on");
+        var THT = document.getElementsByClassName("thtotc")[0];//middle
+        var OTH = document.getElementsByClassName("otothc")[0];//bottom
+        var TO = document.getElementsByClassName("ttooc")[0];//top
+        var D = document.getElementsByClassName("d")[0];
+        var U = document.getElementsByClassName("u")[0];
+
+        THT.classList.add("ttooc");
+        THT.classList.remove("thtotc");
+        OTH.classList.add("thtotc");
+        OTH.classList.remove("otothc");
+        TO.classList.add("otothc");
+        TO.classList.remove("ttooc");
+        D.classList.add("flash");
+        U.classList.add("flash");
+        var nextdisp = turn==true?('000' + resp(info)).slice(-3):"00"+THT.textContent.substr(-1) ;
+        score++;
+        document.getElementsByClassName("sc")[0].textContent="score:"+score;
+        info=turn==true?"000":nextdisp;
+        if(turn==true){setTimeout(flip,1000);}
+        setTimeout(function(){
+            TO.textContent="???";
+            console.log(nextdisp);
+            OTH.textContent=nextdisp;
+            if(turn){document.getElementsByClassName("bb")[0].classList.add("on");}
+            turn = !turn;
+        },0)
+        setTimeout(function(){
+            D.classList.remove("flash");
+            U.classList.remove("flash");
+            
+        },500);
+    }
+    function addinfo(hoge){
+        switch(String(parseInt(info)).length){
+        case 0:
+            info = "00" + String(hoge);
+            break;
+        case 1:
+            info = "0" + String(parseInt(info)) + String(hoge);
+            break;
+        case 2:
+            info = String(parseInt(info)) + String(hoge);
+            break;
+        }
+        document.getElementsByClassName("thtotc")[0].textContent=info;
+    }
+    function ifp(n){
+        var res=p.filter(i=>i==n).length==1;
+        return res;
+    }
+    function onflip(){
+        if(ifp(info) && turn){flip();}
+    }
+    setInterval(function(){
+        
+        document.getElementsByClassName("tc")[0].textContent=time;
+        if(time==0){alert("あなたのスコアは" + score + "です。");location.reload();}
+    },1000);
+    var o = document.getElementsByClassName("o")[0];
+    var t = document.getElementsByClassName("t")[0];
+    var n = document.getElementsByClassName("n")[0];
+    var th = document.getElementsByClassName("th")[0];
+    var f = document.getElementsByClassName("f")[0];
+    var fi = document.getElementsByClassName("fi")[0];
+    var s = document.getElementsByClassName("s")[0];
+    var se = document.getElementsByClassName("se")[0];
+    var e = document.getElementsByClassName("e")[0];
+    var z = document.getElementsByClassName("z")[0];
+    z.addEventListener("touchstart", () => {
+        addinfo(0);
+    })
+    o.addEventListener("touchstart", () => {
+        addinfo(1);
+    })
+    t.addEventListener("touchstart", () => {
+        addinfo(2);
+    })
+    th.addEventListener("touchstart", () => {
+        addinfo(3);
+    })
+    f.addEventListener("touchstart", () => {
+        addinfo(4);
+    })
+    fi.addEventListener("touchstart", () => {
+        addinfo(5);
+    })
+    s.addEventListener("touchstart", () => {
+        addinfo(6);
+    })
+    se.addEventListener("touchstart", () => {
+        addinfo(7);
+    })
+    e.addEventListener("touchstart", () => {
+        addinfo(8);
+    })
+    n.addEventListener("touchstart", () => {
+        addinfo(9);
+    })
+    document.getElementsByClassName("x")[0].addEventListener("touchstart", () => {
+        if(info.substr(0,2)=='00'){}else{
+        info = info.slice(0,2);info= '0' + info;document.getElementsByClassName('thtotc')[0].textContent=info;
+        }
+    })
+    document.getElementsByClassName("en")[0].addEventListener("touchstart", () => {
+    onflip();
+    })
+</script>
+</body>
+</html>
