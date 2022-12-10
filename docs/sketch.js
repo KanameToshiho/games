@@ -32,6 +32,7 @@ function setup() {
   var uname = prompt("ユーザー名を入力してください!");
   if(!uname){uname=""}
   if(uname.trim()==""){uname="名無し";console.log("a")}
+　.replace(/&/g, '&lt;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, "&#x27;");
   socket.emit("enter",{username:uname});
   socket.emit("req",{});
   let btn = document.getElementById("plusb");
